@@ -29,12 +29,17 @@ percepcao = struct("ambiente", ambiente, "x", x, "y", y);
 %---ações do agente---
 acoesAg= {'acima', 'abaixo', 'esquerda', 'direita', 'aspirar'};
 
-
-while 1
-    
+contadorDePassos = 0;%Conta quantidade de passos que o aspirador fez
+temSujeira = 1
+while temSujeira;
+    temSujeira = checkObj(percepcao);
     
     %escolhe a ação de acordo com a percepção - chama função agenteReativoSimples
-    acao = agenteReativoSimples(percepcao);
+    acao = agenteObjetivo(percepcao, temSujeira);
+    if acao != 5
+        contadorDePassos++;
+    end
+    
     %chama a função atualizaAmbiente para atualizar a ação realizada
     [a1, y1, x1] = atualizaAmbiente(percepcao.ambiente, acao, percepcao.y, percepcao.x);
     percepcao.ambiente = a1;
@@ -55,3 +60,8 @@ while 1
     
 end
 
+disp("Quantidade de passos:")
+disp(contadorDePassos) 
+
+text(1,1"Quantidade de passos:")
+text(1,3,contadorDePassos) 
